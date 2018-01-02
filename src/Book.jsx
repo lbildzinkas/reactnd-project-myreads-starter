@@ -4,11 +4,10 @@ class Book extends Component {
 
       constructor(props){
         super(props)
-        this.handleChange = this.handleChange.bind(this);
-        this.state = {value: props.book.shelf}
+        this.state = {value: props.book.shelf === undefined ? 'none' : props.book.shelf}
       }
 
-        handleChange(event) {
+        handleChange = (event) => {
           const { book, onShelfSelected } = this.props
           const value = event.target.value;
           this.setState({value});
@@ -24,7 +23,7 @@ class Book extends Component {
                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                             <div className="book-shelf-changer">
                               <select value={this.state.value} onChange={this.handleChange}>
-                                <option value="none" disabled>Move to...</option>
+                                <option disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
                                 <option value="read">Read</option>

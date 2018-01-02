@@ -8,8 +8,6 @@ import { Route } from 'react-router-dom'
 class App extends Component {
   constructor(props){
     super(props)
-    this.onShelfSelected = this.onShelfSelected.bind(this)
-    this.onSearch = this.onSearch.bind(this)
   }
 
   state = {
@@ -27,15 +25,14 @@ class App extends Component {
     booksFound : []
   }
 
-  onShelfSelected(book, shelf){
+  onShelfSelected = (book, shelf) => {
     BooksAPI.update(book, shelf).then(book => {
       this.showBooks();
     })
   }
 
-  onSearch(query){
+  onSearch = (query) => {
     BooksAPI.search(query).then(books => {
-      console.log(books)
       this.setState({booksFound: books})
     })
   }
