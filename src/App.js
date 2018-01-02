@@ -6,6 +6,11 @@ import BookList from './BookList'
 import { Route } from 'react-router-dom'
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.onShelfSelected = this.onShelfSelected.bind(this)
+    this.onSearch = this.onSearch.bind(this)
+  }
 
   state = {
     bookshelves : [
@@ -22,7 +27,24 @@ class App extends Component {
     booksFound : []
   }
 
+  onShelfSelected(book, shelf){
+    BooksAPI.update(book, shelf).then(book => {
+      this.showBooks();
+    })
+  }
+
+  onSearch(query){
+    BooksAPI.search(query).then(books => {
+      console.log(books)
+      this.setState({booksFound: books})
+    })
+  }
+
   componentDidMount(){
+    this.showBooks();
+  }
+
+  showBooks(){
     const books = BooksAPI.getAll().then(books => {
       console.log(books)
       const shelves = this.state.bookshelves
@@ -38,8 +60,8 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Route exact path="/" render={() => (<BookList bookshelves={this.state.bookshelves} />)} />
-        <Route path="/search" render={() => (<Search books={this.props.booksFound}/>)} />
+        <Route exact path="/" render={() => (<BookList bookshelves={this.state.bookshelves} onShelfSelected={this.onShelfSelected} />)} />
+        <Route path="/search" render={() => (<Search books={this.state.booksFound} onShelfSelected={this.onShelfSelected} onSearch={this.onSearch}/>)} />
       </div>
     )
   }

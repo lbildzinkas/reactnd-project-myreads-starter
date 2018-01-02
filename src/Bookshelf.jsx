@@ -9,7 +9,7 @@ const Bookshelf = (props) => {
             <div className="bookshelf">
                   <h2 className="bookshelf-title">{bookshelf.title}</h2>
                   <div className="bookshelf-books">
-                    <Booksgrid books={bookshelf.books}/>
+                    <Booksgrid books={bookshelf.books} onShelfSelected={props.onShelfSelected}/>
                   </div>
             </div>
         )

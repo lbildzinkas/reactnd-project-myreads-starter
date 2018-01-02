@@ -4,7 +4,7 @@ import Book from './Book';
 const Booksgrid = (props) => {
         const formatedBooks = props.books.map(book => (
             <li key={book.id}>
-                <Book book={book} />
+                <Book book={book} onShelfSelected={props.onShelfSelected} />
             </li>
         ))
 

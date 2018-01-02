@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Bookshelf from './Bookshelf'
 
 const BookList = (props) => {
       const shelves = props.bookshelves.map(bookshelf => (
-        <Bookshelf bookshelf={bookshelf} key={bookshelf.value} />
+        <Bookshelf bookshelf={bookshelf} key={bookshelf.value} onShelfSelected={props.onShelfSelected} />
       ))
         return (
             <div className="list-books">
