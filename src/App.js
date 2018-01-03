@@ -4,6 +4,7 @@ import './App.css'
 import Search from './Search'
 import BookList from './BookList'
 import { Route } from 'react-router-dom'
+import * as _ from 'lodash'
 
 class App extends Component {
   constructor(props){
@@ -32,8 +33,21 @@ class App extends Component {
   }
 
   onSearch = (query) => {
-    BooksAPI.search(query).then(books => {
-      this.setState({booksFound: books})
+    BooksAPI.search(query).then(booksFound => {
+      const books = _.map(booksFound, o => _.extend({shelf: 'undefined'}, o));
+      BooksAPI.getAll().then(booksAdded => {
+        books.forEach(book => {
+          const bookAdded = booksAdded.filter(b => b.title === book.title)[0]
+
+          if(bookAdded !== undefined)
+          {
+            console.log(bookAdded)
+            book.shelf = bookAdded.shelf
+            console.log(book)
+          }
+        })
+        this.setState({booksFound: books})
+      })
     })
   }
 
@@ -43,7 +57,6 @@ class App extends Component {
 
   showBooks(){
     const books = BooksAPI.getAll().then(books => {
-      console.log(books)
       const shelves = this.state.bookshelves
 
       shelves.forEach(shelf => {
